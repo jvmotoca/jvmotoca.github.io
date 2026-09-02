@@ -2,14 +2,17 @@
 
 Arquivos:
 - index.html — página principal
-- assets/jv-motoca.jpg — foto fornecida
+- jv-motoca.jpg — foto principal
+- pix-qrcode.png — QR Code Pix
+- icon-99food.png e icon-keeta.png — imagens dos links de convite
+- icon-*.svg — ícones das redes sociais e do Pix
 - robots.txt — configuração básica para buscadores
 
-## Para colocar no ar
-1. Publique os arquivos em um serviço de hospedagem.
-2. Use um domínio próprio, se tiver.
-3. No Google Search Console, adicione o domínio e solicite a indexação da página inicial.
-4. Depois de ter o domínio, crie/atualize o sitemap.xml e ajuste a linha comentada do robots.txt.
-5. Mantenha Instagram, TikTok, Facebook, YouTube e Threads apontando para o mesmo site e usando de forma consistente o nome "JV Motoca".
+## Para atualizar no GitHub Pages
+1. Extraia o arquivo ZIP.
+2. Envie todos os arquivos desta pasta para a raiz do repositório jvmotoca.github.io.
+3. Confirme a substituição do index.html e dos arquivos que já existem.
+4. Não apague o arquivo de verificação do Google que já está no repositório.
+5. Aguarde a publicação e atualize o site com Ctrl + F5.
 
 Observação: o site usa somente informações que foram apresentadas/confirmadas nesta conversa e não inventa cidade, idade, nome civil ou números de audiência.
