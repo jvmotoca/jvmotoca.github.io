@@ -50,8 +50,9 @@
     h1{font-size:clamp(3rem,7vw,6.4rem);line-height:.92;margin:14px 0 24px;letter-spacing:-.06em}
     .hero p{font-size:1.15rem;color:#c5c5c5;max-width:620px}
     .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-    .btn{padding:13px 18px;border:1px solid #444;border-radius:999px;background:#fff;color:#000;font-weight:800}
+    .btn{padding:13px 18px;border:1px solid #444;border-radius:999px;background:#fff;color:#000;font:inherit;font-weight:800;cursor:pointer}
     .btn.alt{background:transparent;color:#fff}
+    .btn.pix-primary{background:#7e36a4;color:#fff;border-color:#b36bd4;box-shadow:0 0 0 0 rgba(179,107,212,.42);animation:pix-pulse 2.2s infinite}
     .photo{position:relative}
     .photo img{width:100%;max-height:620px;object-fit:cover;border-radius:28px;display:block;border:1px solid #333}
     .badge{position:absolute;left:18px;bottom:18px;background:rgba(0,0,0,.78);border:1px solid #444;border-radius:16px;padding:12px 15px}
@@ -66,13 +67,26 @@
     .social{padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:18px}
     .social strong{display:block;margin-bottom:5px}
     .social span{color:#999;font-size:.9rem}
+    .pix-card{display:grid;grid-template-columns:1fr minmax(240px,320px);gap:42px;align-items:center;background:linear-gradient(135deg,#321545 0%,#17121c 58%,#121212 100%);border:1px solid #56346a;border-radius:30px;padding:42px;overflow:hidden}
+    .pix-kicker{color:#d9b7ed;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.16em}
+    .pix-card h2{font-size:clamp(2rem,5vw,3.8rem);line-height:1;margin:12px 0 18px;letter-spacing:-.04em}
+    .pix-card p{color:#d1c8d7;max-width:570px;margin:0}
+    .pix-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:26px}
+    .pix-status{color:#c9b9d2;font-size:.9rem}
+    .pix-qr{background:#050505;border:1px solid #69417e;border-radius:25px;padding:14px}
+    .pix-qr img{width:100%;display:block;border-radius:16px}
+    .pix-qr small{display:block;text-align:center;color:#aaa;margin-top:10px}
     .cta{background:#f2f2f2;color:#090909;border-radius:30px;padding:42px}
     .cta p{color:#444;max-width:650px}
     footer{padding:38px 0;color:#777;font-size:.9rem}
+    @keyframes pix-pulse{0%,100%{box-shadow:0 0 0 0 rgba(179,107,212,.35)}50%{box-shadow:0 0 0 9px rgba(179,107,212,0)}}
+    @media(prefers-reduced-motion:reduce){.btn.pix-primary{animation:none}}
     @media(max-width:800px){
       .hero{grid-template-columns:1fr;padding-top:54px}
       .cards{grid-template-columns:1fr}
       .socials{grid-template-columns:1fr 1fr}
+      .pix-card{grid-template-columns:1fr;padding:30px}
+      .pix-qr{width:min(100%,320px);margin:auto;order:-1}
       nav .links{display:none}
     }
     @media(max-width:500px){.socials{grid-template-columns:1fr}.cta{padding:28px}}
@@ -87,6 +101,7 @@
         <a href="#sobre">Sobre</a>
         <a href="#conteudo">Conteúdo</a>
         <a href="#redes">Redes</a>
+        <a href="#pix">Pix</a>
         <a href="#contato">Contato</a>
       </div>
     </nav>
@@ -100,6 +115,7 @@
       <h1>JV<br>MOTOCA</h1>
       <p>Conteúdo sobre a rotina de motoboy, delivery, motos e humor. Este é o espaço oficial para reunir as redes e facilitar o encontro do JV Motoca na internet.</p>
       <div class="buttons">
+        <a class="btn pix-primary" href="#pix">Apoiar no Pix</a>
         <a class="btn" href="https://www.instagram.com/jvmotoca_ofc/" target="_blank" rel="noopener">Instagram oficial</a>
         <a class="btn alt" href="#redes">Ver todas as redes</a>
       </div>
@@ -107,6 +123,26 @@
     <div class="photo">
       <img src="jv-motoca.jpg" alt="JV Motoca">
       <div class="badge">@jvmotoca_ofc</div>
+    </div>
+  </section>
+
+  <section id="pix">
+    <div class="wrap">
+      <div class="pix-card">
+        <div>
+          <div class="pix-kicker">Apoie o conteúdo</div>
+          <h2>Fortaleça o JV Motoca no Pix</h2>
+          <p>Curtiu os vídeos e quer dar aquela força? Escaneie o QR Code ou copie a chave Pix. Você escolhe o valor.</p>
+          <div class="pix-actions">
+            <button class="btn" type="button" id="copyPix">Copiar chave Pix</button>
+            <span class="pix-status" id="copyStatus" aria-live="polite">Chave aleatória</span>
+          </div>
+        </div>
+        <div class="pix-qr">
+          <img src="pix-qrcode.png" alt="QR Code Pix para apoiar o JV Motoca">
+          <small>Abra o Pix no app do banco e escaneie</small>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -159,6 +195,35 @@
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  const pixKey = "f9de1401-c974-49d2-887b-306cea3325c9";
+  const copyPixButton = document.getElementById("copyPix");
+  const copyStatus = document.getElementById("copyStatus");
+
+  copyPixButton.addEventListener("click", async () => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(pixKey);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = pixKey;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+      }
+      copyPixButton.textContent = "Chave copiada!";
+      copyStatus.textContent = "Abra seu banco e cole no Pix";
+      setTimeout(() => {
+        copyPixButton.textContent = "Copiar chave Pix";
+        copyStatus.textContent = "Chave aleatória";
+      }, 3500);
+    } catch {
+      copyStatus.textContent = "Não foi possível copiar. Use o QR Code.";
+    }
+  });
 </script>
 </body>
 </html>
